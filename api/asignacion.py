@@ -13,6 +13,6 @@ def asignar_aula(curso: Curso):
         aulas_disponibles = aula_repository.obtener_todas_las_aulas()
         asignacion_service = AsignarAula(aulas=aulas_disponibles)
         aula_asignada = asignacion_service.ejecutar(curso)
-        return {"mensaje": "Aula asignada exitosamente", "aula": aula_asignada.id}
+        return {"mensaje": "Aula asignada exitosamente", "aula": aula_asignada.id, "curso": curso.nombre}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))

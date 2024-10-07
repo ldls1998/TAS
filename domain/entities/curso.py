@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import List, Optional
 
 class Curso(BaseModel):
-    id: int
+    id: str
     nombre: str
     estudiantes: List[str]
     profesor: str

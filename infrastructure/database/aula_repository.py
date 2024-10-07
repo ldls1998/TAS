@@ -5,8 +5,8 @@ from typing import List
 class AulaRepository:
     def __init__(self):
         self.aulas = [
-            Aula(id=1, tipo="Normal", capacidad=50, recursos=["proyector"], estado="available"),
-            Aula(id=2, tipo="Laboratorio", capacidad=30, recursos=["computadoras"], estado="available"),
+            Aula(id=1, tipo="Normal", capacidad=50, recursos=["proyector"], estado="occupied"),
+            Aula(id=2, tipo="Laboratorio", capacidad=30, recursos=["computadoras"], estado="reserved"),
             Aula(id=3, tipo="Magna", capacidad=80, recursos=["proyector"], estado="available"),
         ]
 

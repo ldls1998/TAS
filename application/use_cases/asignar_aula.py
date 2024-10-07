@@ -9,8 +9,7 @@ class AsignarAula:
         self.asignacion_service = AsignacionDeAulasService()
 
     def ejecutar(self, curso: Curso) -> Aula:
-        # Asignación del aula utilizando el servicio de dominio
-        aula_asignada = self.asignacion_service.asignar_aula(curso, self.aulas)
-        # Actualizar el estado del aula asignada
-        aula_asignada.disponible = False
-        return aula_asignada
+        for aula in self.aulas:
+            if aula.is_available() and aula.can_accommodate(curso.numero_de_estudiantes()):
+                return aula
+        raise Exception("No hay aulas disponibles que cumplan los requisitos")
