@@ -3,10 +3,10 @@ from typing import List, Optional
 
 class Aula(BaseModel):
     id: int
-    tipo: str # Tipo de aula (ej. Normal, Magna, laboratorio)
+    tipo: str # Tipo de aula (Normal, Magna, laboratorio)
     capacidad: int
     recursos: List[str]
-    estado: str = "available" # Estado del aula (ej. disponible, en mantenimiento, ocupada, reservada)
+    estado: str = "available" # Estado del aula (disponible, en mantenimiento, ocupada, reservada)
 
     def is_available(self) -> bool:
         return self.estado == "available"
@@ -21,7 +21,7 @@ class Aula(BaseModel):
         return self.estado == "available"
     
     def marcar_mantenimiento(self) -> bool:
-        return self.estado == "in maintenance"
+        return self.estado == "maintenance"
 
     def can_accommodate(self, numero_de_estudiantes: int) -> bool:
         return numero_de_estudiantes <= self.capacidad
