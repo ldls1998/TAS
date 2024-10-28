@@ -1,27 +1,48 @@
-from pydantic import BaseModel
-from typing import List, Optional
+from pydantic import BaseModel, Field
+from resources.domain.entities.estado_aula import EstadoAula
+from typing import List
 
 class Aula(BaseModel):
     id: int
     tipo: str # Tipo de aula (Normal, Magna, laboratorio)
     capacidad: int
     recursos: List[str]
-    estado: str = "available" # Estado del aula (disponible, en mantenimiento, ocupada, reservada)
+    estado: EstadoAula = Field(default=EstadoAula.AVAILABLE)  # Estado del aula
 
     def is_available(self) -> bool:
-        return self.estado == "available"
+        return self.estado == EstadoAula.AVAILABLE
     
     def marcar_reservada(self) -> bool:
-        return self.estado == "reserved"
+        self.estado = EstadoAula.RESERVED
     
     def marcar_ocupada(self) -> bool:
-        return self.estado == "occupied"
+        self.estado = EstadoAula.OCCUPIED
     
     def marcar_disponible(self) -> bool:
-        return self.estado == "available"
+        self.estado = EstadoAula.AVAILABLE
     
     def marcar_mantenimiento(self) -> bool:
-        return self.estado == "maintenance"
+        self.estado = EstadoAula.MAINTENANCE
 
     def can_accommodate(self, numero_de_estudiantes: int) -> bool:
         return numero_de_estudiantes <= self.capacidad
+    
+    def to_dict(self) -> dict:
+        return {
+            "id": self.id,
+            "tipo": self.tipo,
+            "capacidad": self.capacidad,
+            "recursos": self.recursos,
+            "estado": self.estado.value,
+        }
+        
+    @classmethod
+    def from_dict(cls, data: dict):
+        return cls(
+            id=data.get("id"),
+            tipo=data.get("tipo"),
+            capacidad=data.get("capacidad"),
+            recursos=data.get("recursos", []),
+            estado=EstadoAula(data.get("estado", EstadoAula.AVAILABLE)),
+        )
+        

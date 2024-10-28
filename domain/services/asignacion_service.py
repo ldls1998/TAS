@@ -1,5 +1,5 @@
-from app.domain.entities.aula import Aula
-from app.domain.entities.curso import Curso
+from resources.domain.entities.aula import Aula
+from resources.domain.entities.curso import Curso
 from typing import List
 
 class AsignacionDeAulasService:

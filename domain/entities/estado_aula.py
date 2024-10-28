@@ -1,5 +1,8 @@
 from pydantic import BaseModel
+from enum import Enum
 
-class EstadoAula(BaseModel):
-    nuevo_estado: str
-    
+class EstadoAula(str, Enum):
+    AVAILABLE = "available"
+    RESERVED = "reserved"
+    OCCUPIED = "occupied"
+    MAINTENANCE = "maintenance"

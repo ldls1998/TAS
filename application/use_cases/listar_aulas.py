@@ -1,5 +1,5 @@
 from typing import List
-from app.domain.entities.aula import Aula
+from resources.domain.entities.aula import Aula
 
 class ListarAulasDisponibles:
     def __init__(self, aulas: List[Aula]):

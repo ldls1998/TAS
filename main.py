@@ -1,12 +1,11 @@
 from fastapi import FastAPI
-from app.api import asignacion
-from app.api import aulas
+from resources.api import aula_api
 
-app = FastAPI()
 
-app.include_router(asignacion.router)
-app.include_router(aulas.router)
+resources = FastAPI()
 
-@app.get("/")
+resources.include_router(aula_api.router)
+
+@resources.get("/")
 def read_root():
-    return {"La app funciona!"}
+    return {"La resources funciona!"}

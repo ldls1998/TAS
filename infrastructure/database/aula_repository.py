@@ -1,19 +1,24 @@
-from app.domain.entities.aula import Aula
-from typing import List
+from resources.domain.entities.aula import Aula
+from typing import List, Optional
+from resources.infrastructure.database.mongo_db import db_recursos
 
-# Simulación de aulas en crudo, falta implementar la base de datos
 class AulaRepository:
     def __init__(self):
-        self.aulas = [
-            Aula(id=1, tipo="Normal", capacidad=50, recursos=["proyector"], estado="occupied"),
-            Aula(id=2, tipo="Laboratorio", capacidad=30, recursos=["computadoras"], estado="reserved"),
-            Aula(id=3, tipo="Magna", capacidad=80, recursos=["proyector"], estado="available"),
-        ]
+        self.coleccion_aulas = db_recursos['aula']
 
     def obtener_todas_las_aulas(self) -> List[Aula]:
-        return self.aulas
+        aulas = self.coleccion_aulas.find() 
+        return [Aula(**aula) for aula in aulas]
+    
+    def obtener_aula_por_id(self, aula_id: int) -> Optional[dict]:
+        return self.coleccion_aulas.find_one({"id": aula_id})
 
     def actualizar_aula(self, aula: Aula):
-        for idx, a in enumerate(self.aulas):
-            if a.id == aula.id:
-                self.aulas[idx] = aula
+        resultado = self.coleccion_aulas.update_one(
+            {"id": aula.id},
+            {"$set": aula.to_dict()}
+        )
+        if resultado.matched_count == 0:
+            raise ValueError(f"No se encontró el aula con id {aula.id}")
+        elif resultado.modified_count == 0:
+            print(f"Aula con id {aula.id} ya estaba actualizada")

@@ -1,4 +1,4 @@
-from app.domain.entities.aula import Aula
+from resources.domain.entities.aula import Aula
 
 class AulaRepository:
     def __init__(self):
